@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 from json import dumps
-from kafka import KafkaProducer
+from kafka import KafkaConsumer, KafkaProducer
 
 app = FastAPI()
 
@@ -20,10 +20,15 @@ class Data(BaseModel):
     downloaded: int
     save_location: str
 
+KAFKA_TOPIC =  'pintrest_pipeline'
+
+producer = KafkaProducer(bootstrap_servers='localhost:29092')
+
 
 @app.post("/pin/")
 def get_db_row(item: Data):
     data = dict(item)
+    producer.send(data)
     return item
 
 

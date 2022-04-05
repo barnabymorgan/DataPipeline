@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
 ## Milestone 2: Data Ingestion - Consuming the data in Kafka 
 
-- Does what you have built in this milestone connect to the previous one? If so explain how. What technologies are used? Why have you used them? Have you run any commands in the terminal? If so insert them using backticks (To get syntax highlighting for code snippets add the language after the first backticks).
+- This milestone covered creating and initialising Kafka topics. This was then setup to have the API sends data to the Kafka topic (producer) with other scripts receiving this data (consumer). 
 
 - Example below:
 
@@ -56,9 +56,7 @@ if __name__ == '__main__':
 """Insert your code here"""
 ```
 
-> Insert screenshot of what you have built working.
-
-## Milestone n
+## Milestone 3: Batch Processing - Ingest data into the data lake
 
 - Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
 

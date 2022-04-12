@@ -15,10 +15,6 @@ consumer = KafkaConsumer(
 )
 
 creds_s3 = {
-    'bucket_name': "project-data-pipeline",
-    'access_key_id': "AKIA6I6IST3FYUCWMGFI",
-    'secret_access_key': "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",
-    'access_region': "eu-west-2"
     }
 
 print("Gonna start listening")

@@ -1,7 +1,6 @@
 from kafka import KafkaConsumer
 import boto3
 import json
-import tempfile
 
 from kafka import KafkaConsumer
 
@@ -15,6 +14,10 @@ consumer = KafkaConsumer(
 )
 
 creds_s3 = {
+    'bucket_name': "project-data-pipeline",
+     'access_key_id': "",
+     'secret_access_key': "",
+     'access_region': "eu-west-2"
     }
 
 print("Gonna start listening")
@@ -53,5 +56,18 @@ while True:
    "downloaded":0,
    "save_location":"Local save in /data/mens-fashion",
    "category":"mens-fashion"
+}
+{
+    "category": "diy-and-crafts",
+    "index": 2863,
+    "unique_id": "9bf39437-42a6-4f02-99a0-9a0383d8cd70",
+    "title": "25 Super Fun Summer Crafts for Kids - Of Life and Lisa",
+    "description": "Keep the kids busy this summer with these easy diy crafts and projects. Creative and\u2026",
+    "follower_count": "124k",
+    "tag_list": "Summer Crafts For Kids,Fun Crafts For Kids,Summer Kids,Toddler Crafts,Crafts To Do,Diy For Kids,Summer Snow,Diys For Summer,Craft Ideas For Girls",
+    "is_image_or_video": "image",
+    "image_src": "https://i.pinimg.com/originals/b3/bc/e2/b3bce2964e8c8975387b39660eed5f16.jpg",
+    "downloaded": 1,
+    "save_location": "Local save in /data/diy-and-crafts"
 }
 """

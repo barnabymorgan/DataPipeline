@@ -1,8 +1,26 @@
+from cgi import print_arguments
 import multiprocessing
 import findspark
 import operator
 import pyspark
 import json
+import boto3
+import requests
+
+s3 = boto3.resource('s3')
+
+my_bucket = s3.Bucket('project-data-pipeline')
+
+for file in my_bucket.objects.all():
+    print(file.key)
+# Change this with your URL
+    url = "https://project-data-pipeline.s3.eu-west-2.amazonaws.com/1e1f0c8b-9fcf-460b-9154-c775827206eb.json" 
+    response = requests.get(url)
+
+    with open(f'{file.key}', 'wb') as f:
+        data_json = f.write(response.content)
+        print(data_json)
+
 
 findspark.init()
 
@@ -27,6 +45,7 @@ print(cfg.toDebugString())
 
 session = pyspark.sql.SparkSession.builder.config(conf=cfg).getOrCreate()
 
+
 sc = session.sparkContext
 
 with open('User/data_file.json', 'r') as data:
@@ -38,3 +57,23 @@ with open('User/data_file.json', 'r') as data:
     )
 
     print(result)
+
+
+def write_to_hbase():
+    cfg = (
+        pyspark.SparkConf()
+        .setAppName
+    )
+
+    spark = pyspark.sql.SparkSession.builder.config(conf=cfg).getOrCreate()
+
+    df = (
+        pyspark
+        .sql
+        .read
+        .format()
+        .option()
+        .option()
+        .option()
+    )
+

@@ -80,7 +80,13 @@ if __name__ == '__main__':
 
 - Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
 
-# Milestone 8: Batch Processing - Orchestrate the batch processing using Airflow
+# Milestone 7: Batch Processing - Orchestrate the batch processing using Airflow
+
+- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
+
+- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+
+# Milestone 8: Batch Processing - Monitoring
 
 - Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
 

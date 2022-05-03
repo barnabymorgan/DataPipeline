@@ -92,6 +92,24 @@ if __name__ == '__main__':
 
 - Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
 
+# Milestone 9: Streaming - Kafka-Spark Integration
+
+- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
+
+- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+
+# Milestone 10: Streaming - Spark Streaming
+
+- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
+
+- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+
+# Milestone 11: Streaming - Storage
+
+- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
+
+- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+
 ## Conclusions
 
 - Maybe write a conclusion to the project, what you understood about it and also how you would improve it or take it further.

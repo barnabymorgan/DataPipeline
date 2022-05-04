@@ -1,4 +1,3 @@
-from cgi import print_arguments
 import multiprocessing
 import findspark
 import operator
@@ -57,23 +56,3 @@ with open('User/data_file.json', 'r') as data:
     )
 
     print(result)
-
-
-def write_to_hbase():
-    cfg = (
-        pyspark.SparkConf()
-        .setAppName
-    )
-
-    spark = pyspark.sql.SparkSession.builder.config(conf=cfg).getOrCreate()
-
-    df = (
-        pyspark
-        .sql
-        .read
-        .format()
-        .option()
-        .option()
-        .option()
-    )
-

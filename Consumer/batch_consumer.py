@@ -2,8 +2,10 @@ from kafka import KafkaConsumer
 import boto3
 import json
 
-from kafka import KafkaConsumer
+def upload_json():
 
+    
+    pass
 
 KAFKA_TOPIC = "datapipeline"
 

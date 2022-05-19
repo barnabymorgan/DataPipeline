@@ -6,6 +6,7 @@
 - Stream processing data was processed using Spark Streaming and saved to a PostgresSQL database for real-time analysis and monitoring. 
 - Batch data was extracted from S3 and transformed in Spark using Airflow to orchestrate the transformations. 
 - Batch data was then loaded into HBase for long term storage, ad-hoc analysis using Presto and monitored using Prometheus and Grafana.
+- Containerised software for increased scalablilty 
 
 ## Milestone 1: Data Ingestion - Configure the API
 

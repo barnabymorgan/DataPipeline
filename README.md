@@ -75,6 +75,12 @@ if __name__ == '__main__':
 
 - Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
 
+```python
+import os
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages com.datastax.spark:spark-cassandra-connector_2.12:3.1.0 --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions --conf spark.cassandra.connection.host=Barnabys-MacBook-Pro-2.local pyspark-shell'
+
+```
+
 ## Milestone 6: Batch Processing - Set up Presto so you can run ad-hoc queries 
 
 - Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.

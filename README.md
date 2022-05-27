@@ -51,71 +51,52 @@ if __name__ == '__main__':
 /bin/kafka-topics.sh --list --zookeeper 127.0.0.1:2181
 ```
 
-- The above command is used to check whether the topic has been created successfully, once confirmed the API script is edited to send data to the created kafka topic. The docker container has an attached volume which allows editing of files to persist on the container. The result of this is below:
-
-```python
-"""Insert your code here"""
-```
+- The above command is used to check whether the topic has been created successfully, once confirmed the API script is edited to send data to the created kafka topic. The docker container has an attached volume which allows editing of files to persist on the container. 
 
 ## Milestone 3: Batch Processing - Ingest data into the data lake
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- Data is consumed by a Kafka Consumer and uploaded into an S3 bucket, using the uuid provied by the Pintrest API as the file naming system.
 
 ## Milestone 4: Batch Processing - Process the data using Spark
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
+- Spark can then access the data from the S3 bucket.
 
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- This is transformed before sending to the long-term storage system.
 
 ## Milestone 5: Batch Processing - Send the data to Apache Cassandra
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- A Cassandra connection is established and used to store the Pintrest data.
 
 ```python
 import os
-os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages com.datastax.spark:spark-cassandra-connector_2.12:3.1.0 --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions --conf spark.cassandra.connection.host=Barnabys-MacBook-Pro-2.local pyspark-shell'
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages com.datastax.spark:spark-cassandra-connector_2.12:3.1.0 --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions --conf spark.cassandra.connection.host=127.0.0.1 pyspark-shell'
 
 ```
 
 ## Milestone 6: Batch Processing - Set up Presto so you can run ad-hoc queries 
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- 
 
 ## Milestone 7: Batch Processing - Orchestrate the batch processing using Airflow
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- 
 
 ## Milestone 8: Batch Processing - Monitoring
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
+- 
 
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
 
 ## Milestone 9: Streaming - Kafka-Spark Integration
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- 
 
 ## Milestone 10: Streaming - Spark Streaming
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- 
 
 ## Milestone 11: Streaming - Storage
 
-- Continue this process for every milestone, making sure to display clear understanding of each task and the concepts behind them as well as understanding of the technologies used.
-
-- Also don't forget to include code snippets and screenshots of the system you are building, it gives proof as well as it being an easy way to evidence your experience!
+- 
 
 ## Conclusions
 

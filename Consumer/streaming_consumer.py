@@ -1,58 +1,55 @@
-from kafka import KafkaConsumer
-from json import loads
 import findspark
-
 findspark.init()
+import os
+import json
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
 
-import multiprocessing
-import pyspark
-
+# Download spark sql kakfa package from Maven repository and submit to PySpark at runtime. 
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.1 pyspark-shell'
+# specify the topic we want to stream data from.
 KAFKA_TOPIC = "datapipeline"
+# Specify your Kafka server to read data from.
+kafka_bootstrap_servers = 'localhost:29092'
 
-consumer = KafkaConsumer(
-    KAFKA_TOPIC, 
-    bootstrap_servers="localhost:29092"
+spark = SparkSession \
+        .builder \
+        .appName("KafkaStreaming ") \
+        .getOrCreate()
+
+# Only display Error messages in the console.
+spark.sparkContext.setLogLevel("ERROR")
+
+# Construct a streaming DataFrame that reads from topic
+stream_df = spark \
+        .readStream \
+        .format("kafka") \
+        .option("kafka.bootstrap.servers", kafka_bootstrap_servers) \
+        .option("subscribe", KAFKA_TOPIC) \
+        .option("startingOffsets", "earliest") \
+        .option("includeHeaders", "true") \
+        .load()
+
+
+
+# Select the value part of the kafka message and cast it to a string.
+stream_df = stream_df.selectExpr("CAST(value AS STRING)")
+
+words = stream_df.select(
+    get_json_object('value', '$.unique_id').alias("uuid")
+   ,get_json_object('value', '$.category').alias("category")
+   ,get_json_object('value', '$.downloaded').alias("downloaded")
+
 )
 
-# We should always start with session in order to obtain
-# context and session if needed
-session = pyspark.sql.SparkSession.builder.config(
-    conf=pyspark.SparkConf()
-    .setMaster(f"local[{multiprocessing.cpu_count()}]")
-    .setAppName("TestApp")
-).getOrCreate()
-
-print(session)
-
-from pyspark.streaming import StreamingContext
-
-# This context can be used with PySpark streaming
-# You might have to specify batchDuration (e.g. on which time window operation will be run)
-# By default data is collected every 0.5 seconds
-ssc = StreamingContext(session.sparkContext, batchDuration=30)
-
-# We will send lines of data to this socketTextStream
-lines = ssc.socketTextStream("localhost", 8080)
-
-unique_words = lines.flatMap(lambda text: text.split()).countByValue()
-
-unique_words.pprint()
+# outputting the messages to the console 
+query = words.writeStream \
+    .format("console") \
+    .outputMode("append") \
+    .start() 
+    
+query.awaitTermination()
 
 if __name__ == "__main__":
     print("main")
-
-    # create our consumer to retrieve the message from the topics
-    data_stream_consumer = KafkaConsumer(
-        bootstrap_servers="localhost:9092",    
-        value_deserializer=lambda message: loads(message),
-        auto_offset_reset="earliest" # This value ensures the messages are read from the beginning 
-    )
-
-    df = pyspark \
-        .readStream \
-        .format("kafka") \
-        .option("kafka.bootstrap.servers", "host1:port1,host2:port2") \
-        .option("subscribe", KAFKA_TOPIC) \
-        .load()
-    
-    df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")

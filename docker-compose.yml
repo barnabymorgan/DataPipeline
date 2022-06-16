@@ -1,4 +1,8 @@
-version: '2'
+version: '2.5'
+
+networks:
+  app-tier:
+    driver: bridge
 
 services:
   zookeeper:
@@ -26,23 +30,35 @@ services:
   cassandra:
     image: cassandra:4.0
     ports:
+      - 7000:7000
+      - 7001:7001
+      - 7199:7199
       - 9042:9042
+      - 9160:9160
     volumes:
       - ~/apps/cassandra:/var/lib/cassandra
     environment:
-      - CASSANDRA_CLUSTER_NAME=citizix  
-#  cassandra:
-#    image: docker.io/bitnami/cassandra:4.0
-#    ports:
-#      - '7000:7000'
-#      - '9042:9042'
-#    volumes:
-#      - 'cassandra_data:/bitnami'
-#    environment:
-#      - CASSANDRA_SEEDS=cassandra
-#      - CASSANDRA_PASSWORD_SEEDER=yes
-#      - CASSANDRA_PASSWORD=cassandra
-#
-#volumes:
-#  cassandra_data:
-#    driver: local
+      - CASSANDRA_CLUSTER_NAME=citizix 
+    networks:
+      - app-tier
+
+  presto:
+    image: ahanaio/prestodb-sandbox:latest
+    ports:
+      - 8080:8080
+    networks:
+      - app-tier  
+  
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    networks:
+      - app-tier
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - app-tier

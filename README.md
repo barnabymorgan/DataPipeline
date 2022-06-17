@@ -95,8 +95,16 @@ os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages com.datastax.spark:spark-cassand
 - 
 
 ## Milestone 11: Streaming - Storage
+- The streaming data is stored in a PostgreSQL database for finding trends on the streaming data.
+```python
 
-- 
+spark = SparkSession.builder \
+    .config("spark.jars.packages", "com.amazonaws:aws-java-sdk-s3:1.12.196,org.apache.hadoop:hadoop-aws:3.3.1") \
+    .config("spark.jars", "/Users/barnabymorgan/postgresql-42.4.0.jar") \
+    .master("local") \
+    .appName("KafkaStreaming") \
+    .getOrCreate() 
+```
 
 ## Conclusions
 

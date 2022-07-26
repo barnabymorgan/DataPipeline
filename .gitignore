@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# conf files
+*.conf
+
+backup/
+CassandraNodes/
+
 # Distribution / packaging
 .Python
 build/

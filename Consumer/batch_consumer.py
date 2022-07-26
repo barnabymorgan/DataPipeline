@@ -1,6 +1,12 @@
+import configparser
+from datetime import datetime
 from kafka import KafkaConsumer
 import boto3
 import json
+
+config = configparser.ConfigParser()
+configFilePath = '/Users/barnabymorgan/Desktop/DataPipeline/aws.conf'
+config.read(configFilePath)
 
 def upload_json():
     pass
@@ -14,11 +20,11 @@ consumer = KafkaConsumer(
 
 creds_s3 = {
     'bucket_name': "project-data-pipeline",
-     'access_key_id': "",
-     'secret_access_key': "",
+     'access_key_id': config['read']['accessKeyId'], 
+     'secret_access_key': config['read']['secretAccessKey'],
      'access_region': "eu-west-2"
     }
-
+print(creds_s3)
 # if __name__ == "main":
 #    print("Gonna start listening")
 
@@ -26,6 +32,7 @@ while True:
     for message in consumer:
         print("Here is a message..")
         consumed_message = json.loads(message.value.decode())
+        consumed_at = datetime.today().strftime('%Y-%m-%d')
         uuid = consumed_message['unique_id']
         consumed_message = json.dumps(consumed_message)
         print(type(consumed_message))
@@ -39,18 +46,9 @@ while True:
         client.put_object(
                         Body=consumed_message,
                         Bucket="project-data-pipeline", 
-                        Key=f"{uuid}.json"
+                        Key=f"{consumed_at}/{uuid}.json"
                         )    
         """
-        parser = configparser.ConfigParser()
-        parser.read("pipeline.conf")
-        access_key = parser.get("aws_boto_credentials",
-                        "access_key")
-        secret_key = parser.get("aws_boto_credentials",
-                        "secret_key")
-        bucket_name = parser.get("aws_boto_credentials",
-                        "bucket_name")
-
         # upload the local CSV to the S3 bucket
         s3 = boto3.client(
                 's3',

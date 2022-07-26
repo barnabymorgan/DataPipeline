@@ -26,19 +26,47 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      
-  cassandra:
+
+  cas1: 
+    container_name: cas1
     image: cassandra:4.0
-    ports:
-      - 7000:7000
-      - 7001:7001
-      - 7199:7199
-      - 9042:9042
-      - 9160:9160
     volumes:
-      - ~/apps/cassandra:/var/lib/cassandra
+      - /Users/barnabymorgan/Desktop/DataPipeline/CassandraNodes/Data/node1:/var/lib/cassandra/data
+    ports:
+        - 7000:7000
+        - 7001:7001
+        - 8000:7070
+        - 7199:7199
+        - 9042:9042
+        - 9160:9160
     environment:
-      - CASSANDRA_CLUSTER_NAME=citizix 
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CLUSTER_NAME=datapipeline
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=datacenter1
+    networks:
+      - app-tier
+
+  cas2:
+    container_name: cas2
+    image: cassandra:4.0
+    volumes:
+        - /Users/barnabymorgan/Desktop/DataPipeline/CassandraNodes/Data/node2:/var/lib/cassandra/data
+    ports:
+        - 17000:7000
+        - 17001:7001
+        - 17070:7070
+        - 17199:7199
+        - 19042:9042
+        - 19160:9160
+    depends_on:
+      - cas1
+    environment:
+        - CASSANDRA_START_RPC=true
+        - CASSANDRA_CLUSTER_NAME=datapipeline
+        - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+        - CASSANDRA_DC=datacenter1
+        - CASSANDRA_SEEDS=cas1
     networks:
       - app-tier
 
@@ -49,16 +77,43 @@ services:
     networks:
       - app-tier  
   
-  prometheus:
-    image: prom/prometheus
-    ports:
-      - 9090:9090
-    networks:
-      - app-tier
-
   grafana:
     image: grafana/grafana
     ports:
       - 3000:3000
     networks:
       - app-tier
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - app-tier
+
+  postgres:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    volumes:
+      - ./backup:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: newuser
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: pintrest_streaming_pipeline
+    networks:
+      - app-tier
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgrespassword@postgres:5432/pintrest_streaming_pipeline?sslmode=disable"
+    links:
+      - postgres
+      - prometheus
+    networks: 
+        - app-tier  
